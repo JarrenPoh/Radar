@@ -1,6 +1,7 @@
-import 'dart:ui';
-
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as model;
+import 'package:provider/provider.dart';
 import 'package:radar/global/bold_text.dart';
 import 'package:radar/global/colors.dart';
 import 'package:radar/global/medium_text.dart';
@@ -10,10 +11,12 @@ import 'package:radar/providers/post_detail_bloc.dart';
 import 'package:radar/screens/post_detail/comment.dart';
 import 'package:radar/screens/post_detail/information.dart';
 import 'package:radar/screens/post_detail/version.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../global/dimension.dart';
 import 'package:radar/providers/information_bloc.dart';
 
 import '../../widgets/rate_row.dart';
+import 'detail_navigation_bar.dart';
 
 class PostDetail extends StatefulWidget {
   String heroTag;
@@ -36,6 +39,7 @@ class _PostDetailState extends State<PostDetail> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    print('init');
     _bloc.tabController = TabController(
       length: _bloc.tabList.length,
       vsync: this,
@@ -50,250 +54,131 @@ class _PostDetailState extends State<PostDetail> with TickerProviderStateMixin {
     Color color_title = Theme.of(context).colorScheme.primary;
     Color color_sub_title = Theme.of(context).colorScheme.secondary;
     Color _color_arrow = widget.isMan ? color_man_opacity : color_woman_opacity;
+    Color color_container = Theme.of(context).colorScheme.primaryContainer;
+
     return Scaffold(
-      backgroundColor: color_onPrimary,
-      body: Hero(
-        tag: widget.heroTag,
-        child: NestedScrollView(
-          physics: BouncingScrollPhysics(),
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  backgroundColor: color_onPrimary,
-                  expandedHeight: Dimensions.height5 * 140,
-                  pinned: true,
-                  stretch: true,
-                  elevation: 0,
-                  leading: IconButton(
-                    onPressed: () => Navigator.pop(context),
+      bottomNavigationBar: DetailNavigationBar(
+        isMan: true,
+        makeDismissible: makeDismissible(
+          color_onPrimary,
+          Comment(
+            bloc: _bloc.commentBloc,
+          ),
+        ),
+      ),
+      body: Container(
+        color: color_onPrimary,
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Dimensions.height5 * 140,
+                    child: Hero(
+                      transitionOnUserGestures: true,
+                      tag: widget.heroTag,
+                      child: Image.network(
+                        widget.imgUrl[0],
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Information(
+                    bloc: _bloc.informationBloc,
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                top: Dimensions.height5 * 10,
+                left: Dimensions.width5 * 2,
+                right: Dimensions.width5 * 2,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    iconSize: Dimensions.height5 * 7,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     icon: Container(
+                      width: Dimensions.height5 * 8,
+                      height: Dimensions.height5 * 8,
                       decoration: BoxDecoration(
                         color: color_onPrimary,
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Icon(
-                        Icons.chevron_left_outlined,
-                        size: Dimensions.height2 * 17,
+                        Icons.chevron_left,
                         color: color_onSecondary,
                       ),
                     ),
                   ),
-                  bottom: TabBar(
-                    overlayColor: null,
-                    labelColor: color_title,
-                    labelStyle: const TextStyle(fontWeight: FontWeight.w600),
-                    unselectedLabelColor: color_sub_title,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicator: BoxDecoration(
-                      color: color_woman,
-                      borderRadius:
-                          BorderRadius.circular(Dimensions.height5 * 4),
-                    ),
-                    indicatorPadding: EdgeInsets.only(
-                      top: 37,
-                      bottom: 8,
-                      left: Dimensions.width2 * 21,
-                      right: Dimensions.width2 * 21,
-                    ),
-                    onTap: (value) {
-                      _bloc.tabController.index = value;
-                    },
-                    controller: _bloc.tabController,
-                    tabs: List.generate(
-                      _bloc.tabList.length,
-                      (index) => Tab(
-                        child: Text(
-                          _bloc.tabList[index],
+                  IconButton(
+                    iconSize: Dimensions.height5 * 7,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        isScrollControlled: true,
+                        // backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) => makeDismissible(
+                          color_onPrimary,
+                          Version(
+                            bloc: _bloc.versionBloc,
+                          ),
                         ),
+                      );
+                    },
+                    icon: Container(
+                      width: Dimensions.height5 * 8,
+                      height: Dimensions.height5 * 8,
+                      decoration: BoxDecoration(
+                        color: color_onPrimary,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        Icons.info_outline_rounded,
+                        color: color_onSecondary,
+                        size: Dimensions.height2 * 14,
                       ),
                     ),
                   ),
-                  flexibleSpace: LayoutBuilder(
-                    builder: ((context, constraints) {
-                      var top = constraints.biggest.height;
-                      return Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          FlexibleSpaceBar(
-                            // collapseMode: CollapseMode.pin,
-                            stretchModes: const <StretchMode>[
-                              StretchMode.blurBackground
-                            ],
-                            background: Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                PageView.builder(
-                                  onPageChanged: (value) {
-                                    setState(() {
-                                      _page = value + 1;
-                                    });
-                                  },
-                                  itemCount: widget.imgUrl.length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: NetworkImage(
-                                              widget.imgUrl[index]),
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(
-                                    horizontal: Dimensions.width5 * 4,
-                                    vertical: Dimensions.height5 * 12,
-                                  ),
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: Dimensions.height2 * 4,
-                                    horizontal: Dimensions.width5 * 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 92, 92, 92)
-                                          .withOpacity(0.5),
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.height5 * 2)),
-                                  child: RegularText(
-                                    color: Color.fromARGB(255, 235, 235, 235),
-                                    size: Dimensions.height2 * 7,
-                                    text: "$_page/${widget.imgUrl.length}",
-                                  ),
-                                ),
-                              ],
-                            ),
-                            title: AnimatedOpacity(
-                              opacity:
-                                  top <= Dimensions.height2 * 76 ? 1.0 : 0.0,
-                              duration: const Duration(milliseconds: 1),
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: Dimensions.height2 * 4,
-                                    ),
-                                    child: Center(
-                                      child: MediumText(
-                                        color: color_title,
-                                        size: Dimensions.height2 * 8,
-                                        text: 'this is text',
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    right: Dimensions.width5 * 5,
-                                    top: Dimensions.height5 * 12.5,
-                                    child: Text(
-                                      '342',
-                                      style: TextStyle(
-                                        fontSize: Dimensions.height2 * 9,
-                                        fontWeight: FontWeight.bold,
-                                        color: _color_vote,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              AnimatedOpacity(
-                                opacity:
-                                    top <= Dimensions.height2 * 76 ? 0.0 : 1.0,
-                                duration: const Duration(milliseconds: 1),
-                                child: ClipRect(
-                                  child: BackdropFilter(
-                                    filter:
-                                        ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                                    child: Container(
-                                      width: Dimensions.width2 * 60,
-                                      decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                      ),
-                                      margin: EdgeInsets.symmetric(
-                                        horizontal: Dimensions.width5 * 4,
-                                        vertical: Dimensions.height5 * 2,
-                                      ),
-                                      child: RateRow(
-                                        iconPadding: Dimensions.width5 * 2,
-                                        iconSize: Dimensions.height2 * 12,
-                                        isMan: false,
-                                        numberSize: Dimensions.height2 * 12,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: Dimensions.screenWidth,
-                                height: Dimensions.height5 * 12,
-                                padding: EdgeInsets.only(
-                                  top: Dimensions.height5 * 1.5,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: color_onPrimary,
-                                  borderRadius: BorderRadius.vertical(
-                                    top:
-                                        Radius.circular(Dimensions.height5 * 6),
-                                  ),
-                                ),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: Dimensions.width5 * 9,
-                                      height: Dimensions.width2 * 3.5,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey[350],
-                                        borderRadius: BorderRadius.circular(
-                                          Dimensions.height5 * 4,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      );
-                    }),
-                  ),
-                ),
-              )
-            ];
-          },
-          body: Builder(
-            builder: (context) {
-              return CustomScrollProvider(
-                tabController: _bloc.tabController,
-                parent: PrimaryScrollController.of(context),
-                child: TabBarView(
-                  controller: _bloc.tabController,
-                  children: [
-                    Information(
-                      bloc: _bloc.informationBloc,
-                      index: 0,
-                    ),
-                    Comment(
-                      bloc: _bloc.commentBloc,
-                      index: 1,
-                    ),
-                    Version(
-                      bloc: _bloc.versionBloc,
-                      index: 2,
-                    ),
-                  ],
-                ),
-              );
-            },
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget makeDismissible(color_onPrimary, child) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.85,
+        minChildSize: 0.4,
+        maxChildSize: 1,
+        builder: (BuildContext context, ScrollController scrollController) =>
+            Container(
+          decoration: BoxDecoration(
+            color: color_onPrimary,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(30),
+            ),
           ),
+          padding: EdgeInsets.all(Dimensions.width2 * 3),
+          child: child,
         ),
       ),
     );

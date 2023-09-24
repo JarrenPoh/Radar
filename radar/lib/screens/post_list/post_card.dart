@@ -87,7 +87,7 @@ class PostCardState extends State<PostCard> {
                     ),
                     RateRow(
                       iconPadding: Dimensions.width2 * 1.5,
-                      iconSize: Dimensions.height2 * 9,
+                      iconSize: Dimensions.height2 * 12,
                       isMan: widget.isMan,
                       numberSize: Dimensions.height2 * 7,
                     ),

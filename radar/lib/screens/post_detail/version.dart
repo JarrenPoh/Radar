@@ -8,17 +8,25 @@ import 'package:radar/providers/version_bloc.dart';
 import '../../global/bold_text.dart';
 import '../../global/dimension.dart';
 import '../../global/scroll_things_provider.dart';
+import '../../widgets/comment_card.dart';
 
 class Version extends StatefulWidget {
   VersionBloc bloc;
-  int index;
-  Version({super.key, required this.bloc, required this.index});
+  Version({
+    super.key,
+    required this.bloc,
+  });
 
   @override
   State<Version> createState() => _VersionState();
 }
 
 class _VersionState extends State<Version> with AutomaticKeepAliveClientMixin {
+  FocusNode _focusNode = FocusNode();
+  openKeyBoard() {
+    FocusScope.of(context).requestFocus(_focusNode);
+  }
+
   @override
   final bool wantKeepAlive = true;
   Widget build(BuildContext context) {
@@ -29,129 +37,135 @@ class _VersionState extends State<Version> with AutomaticKeepAliveClientMixin {
     Color color_container = Theme.of(context).colorScheme.primaryContainer;
     super.build(context);
 
-    final scrollProvider = CustomScrollProviderData.of(context);
-    widget.bloc.scrollController =
-        scrollProvider.scrollControllers[widget.index];
-
-    return CustomScrollView(
-      controller: widget.bloc.scrollController,
-      slivers: [
-        SliverOverlapInjector(
-          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.width5 * 5,
-            vertical: Dimensions.height5 * 1,
-          ),
-          sliver: SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                BoldText(
-                  color: color_title,
-                  size: Dimensions.height5 * 6,
-                  text: 'Version History',
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: Dimensions.width5 * 5,
+        vertical: Dimensions.height5 * 1,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Dimensions.width5 * 8,
+                height: Dimensions.height5 * 1.5,
+                decoration: BoxDecoration(
+                  color: color_container,
+                  borderRadius: BorderRadius.circular(5),
                 ),
-                SizedBox(height: Dimensions.height5),
-                Divider(),
-                SizedBox(height: Dimensions.height5),
-                Column(
-                  children: List.generate(
-                    5,
-                    (index) {
-                      return Column(
+              ),
+            ],
+          ),
+          SizedBox(height: Dimensions.height5 * 2),
+          BoldText(
+            color: color_title,
+            size: Dimensions.height5 * 6,
+            text: 'Version History',
+          ),
+          SizedBox(height: Dimensions.height5),
+          Divider(),
+          SizedBox(height: Dimensions.height5),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 20,
+              itemBuilder: (context, index) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CommentCard(
+                      contentColor: color_sub_title,
+                      contentText:
+                          '修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,',
+                      titleColor: color_title,
+                      titleText: '1.0.0',
+                    ),
+                    SizedBox(height: Dimensions.height5),
+                    Padding(
+                      padding: EdgeInsets.only(left: Dimensions.width5 * 3),
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BoldText(
-                                color: color_title,
-                                size: Dimensions.height2 * 8,
-                                text: "1.0.0",
-                              ),
-                              Text(
-                                '1y ago',
-                                style: TextStyle(
-                                  color: color_sub_title,
-                                ),
-                              ),
-                            ],
+                          CommentCard(
+                            contentColor: color_title,
+                            contentText: "我修改這個因為他有一點我不知道怎麼說的",
+                            titleColor: color_sub_title,
+                            titleText: '筆者：中原笑辣椒',
                           ),
-                          SizedBox(height: Dimensions.height2),
-                          ExpandableText(
-                            '修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,修改了綽號："中原小辣椒" ,',
-                            expandText: 'more',
-                            collapseText: 'show less',
-                            linkColor: color_title,
-                            maxLines: 5,
-                            animation: true,
-                            collapseOnTextTap: true,
-                            style: TextStyle(
+                          GestureDetector(
+                            onTap: () {},
+                            child: MediumText(
                               color: color_sub_title,
-                              overflow: TextOverflow.fade,
+                              size: Dimensions.height2 * 7,
+                              text: '回覆',
                             ),
                           ),
-                          SizedBox(height: Dimensions.height5 * 2),
-                          ExpansionTile(
-                            tilePadding: EdgeInsets.all(0),
-                            childrenPadding: EdgeInsets.only(
-                              bottom: Dimensions.height5 * 2,
-                            ),
-                            trailing: Icon(
-                              Icons.arrow_drop_down_sharp,
-                              color: color_man,
-                            ),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                MediumText(
-                                  color: color_man,
-                                  size: Dimensions.height2*7,
-                                  text: "修改人留言",
-                                ),
-                              ],
-                            ),
-                            children: [
-                              MediumText(
-                                color: color_title,
-                                size: Dimensions.height2*7,
-                                maxLines: 20,
-                                text:
-                                    "我修改了這個因為我修改了這個因為我修改了這個因為我修改了這個因為我修改了這個因為",
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: Dimensions.height5),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(
-                                Icons.thumb_down_off_alt_outlined,
-                                color: Color.fromARGB(255, 234, 202, 139),
-                                size: Dimensions.height2 * 11,
-                              ),
-                              SizedBox(width: Dimensions.width5 * 2),
-                              Icon(
-                                Icons.thumb_up_alt_outlined,
-                                color: Color.fromARGB(255, 234, 202, 139),
-                                size: Dimensions.height2 * 11,
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: Dimensions.height5),
-                          Divider(),
                         ],
-                      );
-                    },
-                  ),
-                ),
-              ],
+                      ),
+                    ),
+                    SizedBox(height: Dimensions.height5 * 2),
+                    ExpansionTile(
+                      tilePadding: EdgeInsets.all(0),
+                      childrenPadding: EdgeInsets.only(
+                        bottom: Dimensions.height5 * 2,
+                      ),
+                      trailing: Icon(
+                        Icons.arrow_drop_down_sharp,
+                        color: color_man,
+                      ),
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          MediumText(
+                            color: color_man,
+                            size: Dimensions.height2 * 7,
+                            text: "其他人留言",
+                          ),
+                          SizedBox(width: Dimensions.width5 * 1.5),
+                          Text(
+                            '(132)',
+                            style: TextStyle(
+                              color: color_man,
+                              fontSize: Dimensions.height2 * 7,
+                            ),
+                          )
+                        ],
+                      ),
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: Dimensions.width5 * 3),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommentCard(
+                                contentColor: color_title,
+                                contentText: '我覺得不錯',
+                                titleColor: color_sub_title,
+                                titleText: '中原笑辣椒',
+                              ),
+                              GestureDetector(
+                                onTap: () {},
+                                child: MediumText(
+                                  color: color_sub_title,
+                                  size: Dimensions.height2 * 7,
+                                  text: '回覆',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: Dimensions.height5),
+                    Divider(),
+                  ],
+                );
+              },
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

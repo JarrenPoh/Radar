@@ -36,6 +36,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: color_scaffold,
       body: NestedScrollView(
+        floatHeaderSlivers: true,
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
             SliverOverlapAbsorber(
@@ -54,8 +55,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   unselectedLabelColor: color_sub_title,
                   indicatorSize: TabBarIndicatorSize.tab,
                   indicator: BoxDecoration(
-                      color: color_woman,
-                      borderRadius: BorderRadius.circular(10)),
+                    color: color_woman,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   indicatorPadding: EdgeInsets.only(
                     bottom: 8,
                     top: 37,
@@ -75,18 +77,23 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           ];
         },
-        body: CustomScrollProvider(
-          tabController: _homePageBloc.tabController,
-          parent: PrimaryScrollController.of(context),
-          child: TabBarView(
-            physics: NeverScrollableScrollPhysics(),
-            controller: _homePageBloc.tabController,
-            children: List.generate(
-              _homePageBloc.tabList.length,
-              (index) => PostList(bloc: _homePageBloc.postListBlocs[index]),
+        body: Builder(builder: (context) {
+          return CustomScrollProvider(
+            tabController: _homePageBloc.tabController,
+            parent: PrimaryScrollController.of(context),
+            child: TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              controller: _homePageBloc.tabController,
+              children: List.generate(
+                _homePageBloc.tabList.length,
+                (index) => PostList(
+                  bloc: _homePageBloc.postListBlocs[index],
+                  index: index,
+                ),
+              ),
             ),
-          ),
-        ),
+          );
+        }),
       ),
     );
   }

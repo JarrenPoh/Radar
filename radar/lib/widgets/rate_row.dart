@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radar/global/dimension.dart';
 
 import '../global/colors.dart';
 
@@ -29,17 +30,12 @@ class _RateRowState extends State<RateRow> {
     Color color_title = Theme.of(context).colorScheme.primary;
     Color color_sub_title = Theme.of(context).colorScheme.secondary;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          decoration: BoxDecoration(
-            color: _color_arrow,
-            borderRadius: BorderRadius.circular(widget.iconSize / 2),
-          ),
-          child: Icon(
-            Icons.arrow_downward,
-            size: widget.iconSize,
-            color: color_onPrimary,
-          ),
+        Icon(
+          Icons.arrow_circle_down,
+          size: widget.iconSize,
+          color: _color_arrow,
         ),
         Container(
           margin: EdgeInsets.symmetric(
@@ -54,16 +50,10 @@ class _RateRowState extends State<RateRow> {
             ),
           ),
         ),
-        Container(
-          decoration: BoxDecoration(
-            color: _color_arrow,
-            borderRadius: BorderRadius.circular(widget.iconSize / 2),
-          ),
-          child: Icon(
-            Icons.arrow_upward,
-            size: widget.iconSize,
-            color: color_onPrimary,
-          ),
+        Icon(
+          Icons.arrow_circle_up,
+          size: widget.iconSize,
+          color: _color_arrow,
         ),
       ],
     );

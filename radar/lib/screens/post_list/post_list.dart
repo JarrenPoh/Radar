@@ -8,7 +8,12 @@ import '../../providers/post_list_bloc.dart';
 
 class PostList extends StatefulWidget {
   PostListBloc bloc;
-  PostList({super.key, required this.bloc});
+  int index;
+  PostList({
+    super.key,
+    required this.bloc,
+    required this.index,
+  });
 
   @override
   State<PostList> createState() => _PostListState();
@@ -16,12 +21,15 @@ class PostList extends StatefulWidget {
 
 class _PostListState extends State<PostList>
     with AutomaticKeepAliveClientMixin {
-
   @override
   final bool wantKeepAlive = true;
 
   Widget build(BuildContext context) {
     super.build(context);
+
+    final scrollProvider = CustomScrollProviderData.of(context);
+    widget.bloc.scrollController =
+        scrollProvider.scrollControllers[widget.index];
 
     return CustomScrollView(
       controller: widget.bloc.scrollController,
@@ -30,7 +38,8 @@ class _PostListState extends State<PostList>
           handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
         ),
         SliverPadding(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.width2, vertical: 0),
+          padding:
+              EdgeInsets.symmetric(horizontal: Dimensions.width2, vertical: 0),
           sliver: SliverGrid(
             delegate: SliverChildBuilderDelegate(
               childCount: widget.bloc.imgList.length,
@@ -40,7 +49,7 @@ class _PostListState extends State<PostList>
                     context,
                     MaterialPageRoute(
                       builder: (context) => PostDetail(
-                        heroTag:widget.bloc.heroTagList[index],
+                        heroTag: widget.bloc.heroTagList[index],
                         isMan: widget.bloc.isManList[index],
                         imgUrl: widget.bloc.imgList,
                       ),

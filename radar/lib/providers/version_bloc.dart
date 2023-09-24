@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
-class VersionBloc with ChangeNotifier{
+class VersionBloc extends ChangeNotifier{
   ScrollController scrollController = ScrollController();
+
 }
