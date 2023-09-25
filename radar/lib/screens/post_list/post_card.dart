@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/widgets/rate_row.dart';
-import '../../global/bold_text.dart';
-import '../../global/colors.dart';
 import '../../global/medium_text.dart';
 import '../../providers/post_card_bloc.dart';
 
 class PostCard extends StatefulWidget {
-  String imgUrl;
-  bool isMan;
-  PostCardBloc bloc;
-  PostCard({
+  final String imgUrl;
+  final bool isMan;
+  final PostCardBloc bloc;
+  const PostCard({
     Key? key,
     required this.imgUrl,
     required this.isMan,
@@ -90,6 +88,7 @@ class PostCardState extends State<PostCard> {
                       iconSize: Dimensions.height2 * 12,
                       isMan: widget.isMan,
                       numberSize: Dimensions.height2 * 7,
+                      valueNotifier: widget.bloc.valueNumberProvider,
                     ),
                   ],
                 ),

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/screens/post_detail/post_detail.dart';
 import 'package:radar/screens/post_list/post_card.dart';
-import '../../global/custom_page_route.dart';
 import '../../global/scroll_things_provider.dart';
 import '../../providers/post_list_bloc.dart';
 
 class PostList extends StatefulWidget {
-  PostListBloc bloc;
-  int index;
-  PostList({
+  final PostListBloc bloc;
+  final int index;
+  const PostList({
     super.key,
     required this.bloc,
     required this.index,
@@ -52,6 +51,7 @@ class _PostListState extends State<PostList>
                         heroTag: widget.bloc.heroTagList[index],
                         isMan: widget.bloc.isManList[index],
                         imgUrl: widget.bloc.imgList,
+                        valueNotifier: widget.bloc.postCardBlocs[index].valueNumberProvider,
                       ),
                     ),
                   ),

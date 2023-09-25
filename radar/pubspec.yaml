@@ -41,6 +41,8 @@ dependencies:
   modal_bottom_sheet: ^2.1.2
   sliding_up_panel: ^2.0.0+1
   provider: ^6.0.5
+  get: ^4.6.6
+  dots_indicator: ^3.0.0
   
 
 dev_dependencies:
@@ -48,7 +50,6 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons: ^0.13.1 
-  get:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

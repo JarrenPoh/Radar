@@ -3,15 +3,11 @@ import 'package:radar/global/bold_text.dart';
 import 'package:radar/global/colors.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/global/medium_text.dart';
-import 'package:radar/global/regular_text.dart';
 import 'package:radar/providers/information_bloc.dart';
-import 'package:radar/widgets/rate_row.dart';
-
-import '../../global/scroll_things_provider.dart';
 
 class Information extends StatefulWidget {
-  InformationBloc bloc;
-  Information({
+  final InformationBloc bloc;
+  const Information({
     super.key,
     required this.bloc,
   });
@@ -25,8 +21,6 @@ class _InformationState extends State<Information>
   @override
   final bool wantKeepAlive = true;
   Widget build(BuildContext context) {
-    Color color_onPrimary = Theme.of(context).colorScheme.onPrimary;
-    Color color_onSecondary = Theme.of(context).colorScheme.onSecondary;
     Color color_title = Theme.of(context).colorScheme.primary;
     Color color_sub_title = Theme.of(context).colorScheme.secondary;
     super.build(context);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:radar/providers/is_comment_value.dart';
 
 class CommentBloc extends ChangeNotifier {
   ScrollController scrollController = ScrollController();
@@ -6,10 +7,3 @@ class CommentBloc extends ChangeNotifier {
   final IsCommentProvider isCommentProvider = IsCommentProvider(false);
 }
 
-class IsCommentProvider extends ValueNotifier {
-  IsCommentProvider(super.value);
-
-  void isCommentChage(bool) {
-    value = bool;
-  }
-}

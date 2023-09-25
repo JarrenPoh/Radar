@@ -1,32 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart' as model;
-import 'package:provider/provider.dart';
-import 'package:radar/global/bold_text.dart';
-import 'package:radar/global/colors.dart';
-import 'package:radar/global/medium_text.dart';
-import 'package:radar/global/regular_text.dart';
-import 'package:radar/global/scroll_things_provider.dart';
 import 'package:radar/providers/post_detail_bloc.dart';
+import 'package:radar/providers/vote_number_value.dart';
 import 'package:radar/screens/post_detail/comment.dart';
+import 'package:radar/screens/post_detail/detail_picture.dart';
 import 'package:radar/screens/post_detail/information.dart';
 import 'package:radar/screens/post_detail/version.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../global/dimension.dart';
-import 'package:radar/providers/information_bloc.dart';
-
-import '../../widgets/rate_row.dart';
+import 'detail_appbar.dart';
 import 'detail_navigation_bar.dart';
 
 class PostDetail extends StatefulWidget {
-  String heroTag;
-  bool isMan;
-  List imgUrl;
-  PostDetail({
+  final String heroTag;
+  final bool isMan;
+  final List imgUrl;
+  final VoteNumberProvider valueNotifier;
+  const PostDetail({
     super.key,
     required this.heroTag,
     required this.isMan,
     required this.imgUrl,
+    required this.valueNotifier,
   });
 
   @override
@@ -35,7 +29,6 @@ class PostDetail extends StatefulWidget {
 
 class _PostDetailState extends State<PostDetail> with TickerProviderStateMixin {
   final PostDetailBloc _bloc = PostDetailBloc();
-  int _page = 1;
   @override
   void initState() {
     super.initState();
@@ -48,43 +41,38 @@ class _PostDetailState extends State<PostDetail> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    Color _color_vote = widget.isMan ? color_man : color_woman;
     Color color_onPrimary = Theme.of(context).colorScheme.onPrimary;
-    Color color_onSecondary = Theme.of(context).colorScheme.onSecondary;
-    Color color_title = Theme.of(context).colorScheme.primary;
-    Color color_sub_title = Theme.of(context).colorScheme.secondary;
-    Color _color_arrow = widget.isMan ? color_man_opacity : color_woman_opacity;
-    Color color_container = Theme.of(context).colorScheme.primaryContainer;
 
     return Scaffold(
       bottomNavigationBar: DetailNavigationBar(
         isMan: true,
-        makeDismissible: makeDismissible(
+        commentDismissible: makeDismissible(
           color_onPrimary,
           Comment(
             bloc: _bloc.commentBloc,
           ),
         ),
+        versionDismissible: makeDismissible(
+          color_onPrimary,
+          Version(
+            bloc: _bloc.versionBloc,
+          ),
+        ),
+        bloc: _bloc,
+        valueNotifier: widget.valueNotifier,
       ),
       body: Container(
         color: color_onPrimary,
         child: Stack(
-          alignment: Alignment.topCenter,
           children: [
             SingleChildScrollView(
               physics: const ClampingScrollPhysics(),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: Dimensions.height5 * 140,
-                    child: Hero(
-                      transitionOnUserGestures: true,
-                      tag: widget.heroTag,
-                      child: Image.network(
-                        widget.imgUrl[0],
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                  DetailPicture(
+                    heroTag: widget.heroTag,
+                    imgUrl: widget.imgUrl,
+                    bloc: _bloc,
                   ),
                   Information(
                     bloc: _bloc.informationBloc,
@@ -92,65 +80,8 @@ class _PostDetailState extends State<PostDetail> with TickerProviderStateMixin {
                 ],
               ),
             ),
-            Container(
-              padding: EdgeInsets.only(
-                top: Dimensions.height5 * 10,
-                left: Dimensions.width5 * 2,
-                right: Dimensions.width5 * 2,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    iconSize: Dimensions.height5 * 7,
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Container(
-                      width: Dimensions.height5 * 8,
-                      height: Dimensions.height5 * 8,
-                      decoration: BoxDecoration(
-                        color: color_onPrimary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        Icons.chevron_left,
-                        color: color_onSecondary,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    iconSize: Dimensions.height5 * 7,
-                    onPressed: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        isScrollControlled: true,
-                        // backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (context) => makeDismissible(
-                          color_onPrimary,
-                          Version(
-                            bloc: _bloc.versionBloc,
-                          ),
-                        ),
-                      );
-                    },
-                    icon: Container(
-                      width: Dimensions.height5 * 8,
-                      height: Dimensions.height5 * 8,
-                      decoration: BoxDecoration(
-                        color: color_onPrimary,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        Icons.info_outline_rounded,
-                        color: color_onSecondary,
-                        size: Dimensions.height2 * 14,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            DetailAppBar(
+              isMan: widget.isMan,
             ),
           ],
         ),

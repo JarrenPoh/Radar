@@ -1,13 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class MediumText extends StatelessWidget {
-  Color color;
-  double size;
-  int? maxLines;
-  String text;
-  MediumText({
+  final Color color;
+  final double size;
+  final int? maxLines;
+  final String text;
+  const MediumText({
     super.key,
     required this.color,
     this.maxLines,

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:radar/global/dimension.dart';
-
+import 'package:radar/providers/vote_number_value.dart';
 import '../global/colors.dart';
 
 class RateRow extends StatefulWidget {
-  double iconSize;
-  double iconPadding;
-  double numberSize;
-  bool isMan;
-  RateRow({
+  final double iconSize;
+  final double iconPadding;
+  final double numberSize;
+  final bool isMan;
+  final VoteNumberProvider valueNotifier;
+  const RateRow({
     super.key,
     required this.iconPadding,
     required this.iconSize,
     required this.isMan,
     required this.numberSize,
+    required this.valueNotifier,
   });
 
   @override
@@ -22,38 +23,81 @@ class RateRow extends StatefulWidget {
 
 class _RateRowState extends State<RateRow> {
   @override
+  void initState() {
+    super.initState();
+
+  }
+  int previousNumber = -1;
+
+  @override
   Widget build(BuildContext context) {
     Color _color_arrow = widget.isMan ? color_man_opacity : color_woman_opacity;
     Color _color_vote = widget.isMan ? color_man : color_woman;
-    Color color_onPrimary = Theme.of(context).colorScheme.onPrimary;
-    Color color_onSecondary = Theme.of(context).colorScheme.onSecondary;
-    Color color_title = Theme.of(context).colorScheme.primary;
-    Color color_sub_title = Theme.of(context).colorScheme.secondary;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Icon(
-          Icons.arrow_circle_down,
-          size: widget.iconSize,
-          color: _color_arrow,
+        GestureDetector(
+          onTap: () {
+            if (widget.valueNotifier.value == 0) return;
+            previousNumber = widget.valueNotifier.value;
+            widget.valueNotifier.value = previousNumber - 1;
+          },
+          child: Icon(
+            Icons.arrow_circle_down,
+            size: widget.iconSize,
+            color: _color_arrow,
+          ),
         ),
         Container(
           margin: EdgeInsets.symmetric(
             horizontal: widget.iconPadding,
           ),
-          child: Text(
-            '342',
-            style: TextStyle(
-              fontSize: widget.numberSize,
-              fontWeight: FontWeight.bold,
-              color: _color_vote,
-            ),
-          ),
+          child: ValueListenableBuilder(
+              valueListenable: widget.valueNotifier,
+              builder: (context, value, child) {
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  transitionBuilder: (child, animation) {
+                    final position = Tween<Offset>(
+                      begin: (previousNumber < value)
+                          ? (animation.status == AnimationStatus.completed)
+                              ? const Offset(0, 1)
+                              : const Offset(0, -1)
+                          : (animation.status == AnimationStatus.completed)
+                              ? const Offset(0, -1)
+                              : const Offset(0, 1),
+                      end: Offset.zero,
+                    ).animate(animation);
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SlideTransition(
+                        position: position,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Text(
+                    value.toString(),
+                    key: UniqueKey(),
+                    style: TextStyle(
+                      fontSize: widget.numberSize,
+                      fontWeight: FontWeight.bold,
+                      color: _color_vote,
+                    ),
+                  ),
+                );
+              }),
         ),
-        Icon(
-          Icons.arrow_circle_up,
-          size: widget.iconSize,
-          color: _color_arrow,
+        GestureDetector(
+          onTap: () {
+            previousNumber = widget.valueNotifier.value;
+            widget.valueNotifier.value = previousNumber + 1;
+          },
+          child: Icon(
+            Icons.arrow_circle_up,
+            size: widget.iconSize,
+            color: _color_arrow,
+          ),
         ),
       ],
     );

@@ -1,13 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class RegularText extends StatelessWidget {
-  Color color;
-  double size;
-  int? maxLines;
-  String text;
-  RegularText({
+  final Color color;
+  final double size;
+  final int? maxLines;
+  final String text;
+  const RegularText({
     super.key,
     required this.color,
     this.maxLines,

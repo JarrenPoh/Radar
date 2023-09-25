@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-
+import 'package:radar/providers/vote_number_value.dart';
 import '../../global/colors.dart';
 import '../../global/dimension.dart';
+import '../../providers/post_detail_bloc.dart';
 import '../../widgets/rate_row.dart';
 
 class DetailNavigationBar extends StatefulWidget {
-  bool isMan;
-  Widget makeDismissible;
-  DetailNavigationBar({
+  final bool isMan;
+  final Widget commentDismissible;
+  final Widget versionDismissible;
+  final PostDetailBloc bloc;
+  final VoteNumberProvider valueNotifier;
+
+  const DetailNavigationBar({
     super.key,
     required this.isMan,
-    required this.makeDismissible,
+    required this.commentDismissible,
+    required this.versionDismissible,
+    required this.bloc,
+    required this.valueNotifier,
   });
 
   @override
@@ -20,12 +28,9 @@ class DetailNavigationBar extends StatefulWidget {
 class _DetailNavigationBarState extends State<DetailNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    Color _color_vote = widget.isMan ? color_man : color_woman;
     Color color_onPrimary = Theme.of(context).colorScheme.onPrimary;
     Color color_onSecondary = Theme.of(context).colorScheme.onSecondary;
     Color color_title = Theme.of(context).colorScheme.primary;
-    Color color_sub_title = Theme.of(context).colorScheme.secondary;
-    Color _color_arrow = widget.isMan ? color_man_opacity : color_woman_opacity;
     Color color_container = Theme.of(context).colorScheme.primaryContainer;
 
     return Container(
@@ -51,17 +56,50 @@ class _DetailNavigationBarState extends State<DetailNavigationBar> {
               iconSize: Dimensions.height5 * 7,
               isMan: true,
               numberSize: Dimensions.height5 * 5,
+              valueNotifier: widget.valueNotifier,
             ),
           ),
           Expanded(child: Column(children: [])),
+          ValueListenableBuilder(
+            valueListenable: widget.bloc.isLikeProvider,
+            builder: (context, value, child) {
+              value as bool;
+              return Row(
+                children: [
+                  SizedBox(
+                    width: Dimensions.width5 * 7.5,
+                    child: IconButton(
+                      onPressed: () {
+                        widget.bloc.isLikeProvider.isLikeChage(!value);
+                      },
+                      icon: Icon(
+                        value ? Icons.favorite : Icons.favorite_outline_rounded,
+                        color: value ? color_woman : color_onSecondary,
+                        size: Dimensions.height5 * 5,
+                      ),
+                    ),
+                  ),
+                  Text('2.3k', style: TextStyle(color: color_title)),
+                ],
+              );
+            },
+          ),
           Row(
             children: [
               SizedBox(
                 width: Dimensions.width5 * 7.5,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                      isScrollControlled: true,
+                      // backgroundColor: Colors.transparent,
+                      context: context,
+                      builder: (context) => widget.commentDismissible,
+                    );
+                  },
                   icon: Icon(
-                    Icons.favorite_outline_rounded,
+                    Icons.messenger_outline_rounded,
                     color: color_onSecondary,
                     size: Dimensions.height5 * 5,
                   ),
@@ -81,33 +119,17 @@ class _DetailNavigationBarState extends State<DetailNavigationBar> {
                       isScrollControlled: true,
                       // backgroundColor: Colors.transparent,
                       context: context,
-                      builder: (context) => widget.makeDismissible,
+                      builder: (context) => widget.versionDismissible,
                     );
                   },
                   icon: Icon(
-                    Icons.messenger_outline_rounded,
+                    Icons.info_outline_rounded,
                     color: color_onSecondary,
                     size: Dimensions.height5 * 5,
                   ),
                 ),
               ),
-              Text('2.3k', style: TextStyle(color: color_title)),
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: Dimensions.width5 * 7.5,
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.send_rounded,
-                    color: color_onSecondary,
-                    size: Dimensions.height5 * 5,
-                  ),
-                ),
-              ),
-              Text('2.3k', style: TextStyle(color: color_title)),
+              Text('2.0.7', style: TextStyle(color: color_title)),
             ],
           ),
         ],

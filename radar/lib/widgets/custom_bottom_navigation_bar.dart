@@ -11,21 +11,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
   });
   final int selectedPageIndex;
   final Function onIconTap;
-  List iconList = [
+  final List iconList = [
     Icons.home_filled,
     CupertinoIcons.search,
     Icons.add,
     Icons.inbox_rounded,
     CupertinoIcons.profile_circled,
   ];
-  List labelText = ["home", "search", "", "inbox", "profile"];
+  final List labelText = ["home", "search", "", "inbox", "profile"];
 
   @override
   Widget build(BuildContext context) {
     Color color_onPrimary = Theme.of(context).colorScheme.onPrimary;
-    Color color_onSecondary = Theme.of(context).colorScheme.onSecondary;
-    Color color_title = Theme.of(context).colorScheme.primary;
-    Color color_sub_title = Theme.of(context).colorScheme.secondary;
     final barHeight = MediaQuery.of(context).size.height * 0.06;
     final style = Theme.of(context).textTheme.bodyText1!.copyWith(
           fontSize: Dimensions.height2 * 5.5,
@@ -55,7 +52,9 @@ class CustomBottomNavigationBar extends StatelessWidget {
     BuildContext context,
   ) {
     bool isSelected = selectedPageIndex == index;
-    Color iconAndTextColor = isSelected ? Theme.of(context).colorScheme.onSecondary : Theme.of(context).colorScheme.secondary;
+    Color iconAndTextColor = isSelected
+        ? Theme.of(context).colorScheme.onSecondary
+        : Theme.of(context).colorScheme.secondary;
 
     return GestureDetector(
       onTap: () => {onIconTap(index)},
@@ -84,7 +83,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
   }
 
   _addItem(index, height, BuildContext context) {
-    bool isSelected = selectedPageIndex == index;
     return GestureDetector(
       onTap: () => {onIconTap(index)},
       child: Column(

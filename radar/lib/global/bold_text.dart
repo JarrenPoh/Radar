@@ -1,13 +1,11 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class BoldText extends StatelessWidget {
-  Color color;
-  double size;
-  int? maxLines;
-  String text;
-  BoldText({
+  final Color color;
+  final double size;
+  final int? maxLines;
+  final String text;
+  const BoldText({
     super.key,
     required this.color,
     this.maxLines,

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../screens/post_list/post_card.dart';
+import 'package:radar/providers/vote_number_value.dart';
 
 class PostCardBloc with ChangeNotifier {
+  VoteNumberProvider valueNumberProvider = VoteNumberProvider(0);
+  
 
   // void catchRenderBox(GlobalObjectKey<PostCardState> key) {
   //     final BuildContext context = key.currentContext!;
