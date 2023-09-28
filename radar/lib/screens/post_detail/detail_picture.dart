@@ -39,7 +39,6 @@ class _DetailPictureState extends State<DetailPicture> {
 
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onDoubleTap: () {
         setState(() {
@@ -55,24 +54,26 @@ class _DetailPictureState extends State<DetailPicture> {
             alignment: Alignment.bottomCenter,
             children: [
               SizedBox(
-                height: Dimensions.height5 * 140,
-                child: Hero(
-                  transitionOnUserGestures: true,
-                  tag: widget.heroTag,
-                  child: PageView.builder(
-                    controller: _pageController,
-                    itemCount: widget.imgUrl.length,
-                    onPageChanged: (value) {
-                      setState(() {
-                        currPageValue = value;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      return Image.network(
-                        widget.imgUrl[index],
-                        fit: BoxFit.cover,
-                      );
-                    },
+                child: AspectRatio(
+                  aspectRatio: 4 / 7,
+                  child: Hero(
+                    transitionOnUserGestures: true,
+                    tag: widget.heroTag,
+                    child: PageView.builder(
+                      controller: _pageController,
+                      itemCount: widget.imgUrl.length,
+                      onPageChanged: (value) {
+                        setState(() {
+                          currPageValue = value;
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        return Image.network(
+                          widget.imgUrl[index],
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),

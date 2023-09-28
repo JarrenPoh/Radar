@@ -40,52 +40,56 @@ class _CommentCardState extends State<CommentCard> {
   Widget build(BuildContext context) {
     Color color_sub_title = Theme.of(context).colorScheme.secondary;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            BoldText(
-              color: widget.titleColor,
-              size: Dimensions.height2 * 7,
-              text: widget.titleText,
-            ),
-            SizedBox(width: Dimensions.width5 * 1.5),
-            Text(
-              '1y ago',
-              style: TextStyle(
-                color: color_sub_title,
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onDoubleTap: () => tapLike(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              BoldText(
+                color: widget.titleColor,
+                size: Dimensions.height2 * 7,
+                text: widget.titleText,
               ),
-            ),
-            Expanded(child: Column(children: [])),
-            GestureDetector(
-              onTap: () => tapLike(),
-              child: Icon(
-                isLike ? Icons.favorite : Icons.favorite_border_rounded,
-                color: isLike ? color_woman : color_sub_title,
-                size: Dimensions.height2 * 9,
+              SizedBox(width: Dimensions.width5 * 1.5),
+              Text(
+                '1y ago',
+                style: TextStyle(
+                  color: color_sub_title,
+                ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(height: Dimensions.height5*3),
-        ExpandableText(
-          widget.contentText,
-          expandText: 'more',
-          collapseText: 'show less',
-          linkColor: widget.titleColor,
-          maxLines: widget.maxLines,
-          animation: true,
-          collapseOnTextTap: true,
-          style: TextStyle(
-            color: widget.contentColor,
-            overflow: TextOverflow.fade,
-            fontSize: Dimensions.height2 * 7.25,
+              Expanded(child: Column(children: [])),
+              GestureDetector(
+                onTap: () => tapLike(),
+                child: Icon(
+                  isLike ? Icons.favorite : Icons.favorite_border_rounded,
+                  color: isLike ? color_woman : color_sub_title,
+                  size: Dimensions.height2 * 9,
+                ),
+              ),
+            ],
           ),
-        ),
-        SizedBox(height: Dimensions.height5 * 2),
-      ],
+          SizedBox(height: Dimensions.height5 * 3),
+          ExpandableText(
+            widget.contentText,
+            expandText: 'more',
+            collapseText: 'show less',
+            linkColor: widget.titleColor,
+            maxLines: widget.maxLines,
+            animation: true,
+            collapseOnTextTap: true,
+            style: TextStyle(
+              color: widget.contentColor,
+              overflow: TextOverflow.fade,
+              fontSize: Dimensions.height2 * 7.25,
+            ),
+          ),
+          SizedBox(height: Dimensions.height5 * 2),
+        ],
+      ),
     );
   }
 }

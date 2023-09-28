@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:radar/widgets/custom_dialog.dart';
-
+import 'package:share_plus/share_plus.dart';
 import '../../global/colors.dart';
 import '../../global/dimension.dart';
 
@@ -110,7 +110,7 @@ class _DetailAppBarState extends State<DetailAppBar>
             animation: animateController,
             builder: (context, child) {
               return GestureDetector(
-                onTap: () => tapFollow(color_sub_title,color_title),
+                onTap: () => tapFollow(color_sub_title, color_title),
                 child: Container(
                   height: Dimensions.height5 * 8,
                   width: Dimensions.width5 * 20 * animation.value,
@@ -127,7 +127,8 @@ class _DetailAppBarState extends State<DetailAppBar>
                       ),
                       Text(
                         isFollow ? '' : '  Follow',
-                        style: TextStyle(fontWeight: FontWeight.bold,color: color_title),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: color_title),
                       ),
                     ],
                   ),
@@ -145,7 +146,13 @@ class _DetailAppBarState extends State<DetailAppBar>
             ),
             child: IconButton(
               iconSize: Dimensions.height5 * 7,
-              onPressed: () {},
+              onPressed: () async {
+                String postLink = 'https://example.com';
+                await Share.share(
+                  '- 快來看中原大學的中原小辣椒\n\n' + postLink,
+                  subject: '中原大學的中原小辣椒',
+                );
+              },
               icon: Icon(
                 Icons.share_rounded,
                 color: color_onSecondary,

@@ -13,7 +13,7 @@ class InformationBloc extends ChangeNotifier {
     "星座",
     "血型",
     "興趣專長",
-    "筆者",
+    "筆者（總管理員）",
   ];
   List<String> answers = [
     "天上天",

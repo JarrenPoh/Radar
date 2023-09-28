@@ -70,7 +70,7 @@ class _PostListState extends State<PostList>
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 1.5,
-              childAspectRatio: 0.6,
+              childAspectRatio: 0.45,
             ),
           ),
         ),
