@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/post_list_bloc.dart';
+import 'package:radar/providers/home_page/post_list_bloc.dart';
 
 class HomePageBloc with ChangeNotifier {
   List<PostListBloc> postListBlocs = [];

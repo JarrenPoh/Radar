@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/is_comment_value.dart';
+import 'package:radar/valueNotifier/bool_value.dart';
 
-class CommentBloc extends ChangeNotifier {
+class VersionBloc extends ChangeNotifier{
   ScrollController scrollController = ScrollController();
   TextEditingController textEditingController = TextEditingController();
-  final IsCommentProvider isCommentProvider = IsCommentProvider(false);
-}
+  final BoolValueNotifier isCommentProvider = BoolValueNotifier(false);
 
+}

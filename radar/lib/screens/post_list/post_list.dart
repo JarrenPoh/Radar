@@ -3,7 +3,7 @@ import 'package:radar/global/dimension.dart';
 import 'package:radar/screens/post_detail/post_detail.dart';
 import 'package:radar/screens/post_list/post_card.dart';
 import '../../global/scroll_things_provider.dart';
-import '../../providers/post_list_bloc.dart';
+import '../../providers/home_page/post_list_bloc.dart';
 
 class PostList extends StatefulWidget {
   final PostListBloc bloc;
@@ -51,18 +51,16 @@ class _PostListState extends State<PostList>
                         heroTag: widget.bloc.heroTagList[index],
                         isMan: widget.bloc.isManList[index],
                         imgUrl: widget.bloc.imgList,
-                        valueNotifier: widget.bloc.postCardBlocs[index].valueNumberProvider,
+                        rateValueNotifier: widget.bloc.postCardBlocs[index].rateValueNotifier,
                       ),
                     ),
                   ),
-                  child: Hero(
-                    tag: widget.bloc.heroTagList[index],
-                    child: PostCard(
-                      key: widget.bloc.cardKeyList[index],
-                      imgUrl: widget.bloc.imgList[index],
-                      isMan: widget.bloc.isManList[index],
-                      bloc: widget.bloc.postCardBlocs[index],
-                    ),
+                  child: PostCard(
+                    key: widget.bloc.cardKeyList[index],
+                    imgUrl: widget.bloc.imgList[index],
+                    isMan: widget.bloc.isManList[index],
+                    bloc: widget.bloc.postCardBlocs[index],
+                    heroTag: widget.bloc.heroTagList[index],
                   ),
                 );
               },

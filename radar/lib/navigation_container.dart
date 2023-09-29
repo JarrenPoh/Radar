@@ -13,7 +13,10 @@ class NavigationContainer extends StatefulWidget {
   State<NavigationContainer> createState() => _NavigationContainerState();
 }
 
-class _NavigationContainerState extends State<NavigationContainer> {
+class _NavigationContainerState extends State<NavigationContainer>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  final bool wantKeepAlive = true;
   int _selectedPageIndex = 0;
   static const List<Widget> _pages = [
     HomePage(),
@@ -22,18 +25,23 @@ class _NavigationContainerState extends State<NavigationContainer> {
     InboxPage(),
     ProfilePage(),
   ];
+  final PageController _pageController = PageController();
 
   void _onIconTapped(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
+    _pageController.jumpToPage(index);
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
-      body: Center(
-        child: _pages[_selectedPageIndex],
+      body: PageView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: _pageController,
+        itemCount: _pages.length,
+        itemBuilder: (context, index) {
+          return _pages[index];
+        },
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         onIconTap: _onIconTapped,

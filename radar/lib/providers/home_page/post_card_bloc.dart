@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/vote_number_value.dart';
+import 'package:radar/valueNotifier/int_value_notifier.dart';
 
 class PostCardBloc with ChangeNotifier {
-  VoteNumberProvider valueNumberProvider = VoteNumberProvider(0);
+  IntValueNotifier rateValueNotifier = IntValueNotifier(0);
   
 
   // void catchRenderBox(GlobalObjectKey<PostCardState> key) {

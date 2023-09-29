@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:radar/widgets/custom_dialog.dart';
+import 'package:radar/widgets/custom/custom_dialog.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../global/colors.dart';
 import '../../global/dimension.dart';

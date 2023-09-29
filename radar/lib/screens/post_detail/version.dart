@@ -1,6 +1,6 @@
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:radar/providers/version_bloc.dart';
+import 'package:radar/providers/post_detail/version_bloc.dart';
 import '../../global/bold_text.dart';
 import '../../global/dimension.dart';
 import '../../widgets/comment_card.dart';

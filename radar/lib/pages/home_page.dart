@@ -4,7 +4,7 @@ import 'package:radar/global/dimension.dart';
 import 'package:radar/screens/post_list/post_list.dart';
 import '../global/colors.dart';
 import '../global/scroll_things_provider.dart';
-import '../providers/home_page_bloc.dart';
+import '../providers/home_page/home_page_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,7 +13,10 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
+  @override
+  final bool wantKeepAlive = true;
   final HomePageBloc _homePageBloc = HomePageBloc();
 
   @override
@@ -28,6 +31,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     Color color_scaffold = Theme.of(context).colorScheme.background;
     Color color_appBar = Theme.of(context).appBarTheme.backgroundColor!;
     Color color_title = Theme.of(context).colorScheme.primary;
@@ -82,7 +86,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             tabController: _homePageBloc.tabController,
             parent: PrimaryScrollController.of(context),
             child: TabBarView(
-              physics: NeverScrollableScrollPhysics(),
               controller: _homePageBloc.tabController,
               children: List.generate(
                 _homePageBloc.tabList.length,

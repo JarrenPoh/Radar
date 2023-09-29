@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../global/colors.dart';
 import '../../global/dimension.dart';
-import '../../providers/post_detail_bloc.dart';
+import '../../providers/post_detail/post_detail_bloc.dart';
 import '../../widgets/heart_animation_widget.dart';
 
 class DetailPicture extends StatefulWidget {
@@ -44,7 +44,7 @@ class _DetailPictureState extends State<DetailPicture> {
         setState(() {
           isHeartAnimating = true;
           isLike = true;
-          widget.bloc.isLikeProvider.isLikeChage(isLike);
+          widget.bloc.likeValueNotifier.boolChange(isLike);
         });
       },
       child: Stack(
@@ -62,6 +62,7 @@ class _DetailPictureState extends State<DetailPicture> {
                     child: PageView.builder(
                       controller: _pageController,
                       itemCount: widget.imgUrl.length,
+                      physics: const ClampingScrollPhysics(),
                       onPageChanged: (value) {
                         setState(() {
                           currPageValue = value;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/vote_number_value.dart';
+import 'package:radar/valueNotifier/int_value_notifier.dart';
 import '../../global/colors.dart';
 import '../../global/dimension.dart';
-import '../../providers/post_detail_bloc.dart';
+import '../../providers/post_detail/post_detail_bloc.dart';
 import '../../widgets/rate_row.dart';
 
 class DetailNavigationBar extends StatefulWidget {
@@ -10,7 +10,7 @@ class DetailNavigationBar extends StatefulWidget {
   final Widget commentDismissible;
   final Widget versionDismissible;
   final PostDetailBloc bloc;
-  final VoteNumberProvider valueNotifier;
+  final IntValueNotifier rateValueNotifier;
 
   const DetailNavigationBar({
     super.key,
@@ -18,7 +18,7 @@ class DetailNavigationBar extends StatefulWidget {
     required this.commentDismissible,
     required this.versionDismissible,
     required this.bloc,
-    required this.valueNotifier,
+    required this.rateValueNotifier,
   });
 
   @override
@@ -56,12 +56,12 @@ class _DetailNavigationBarState extends State<DetailNavigationBar> {
               iconSize: Dimensions.height5 * 7,
               isMan: true,
               numberSize: Dimensions.height5 * 5,
-              valueNotifier: widget.valueNotifier,
+              valueNotifier: widget.rateValueNotifier,
             ),
           ),
           Expanded(child: Column(children: [])),
           ValueListenableBuilder(
-            valueListenable: widget.bloc.isLikeProvider,
+            valueListenable: widget.bloc.likeValueNotifier,
             builder: (context, value, child) {
               value as bool;
               return Row(
@@ -70,7 +70,7 @@ class _DetailNavigationBarState extends State<DetailNavigationBar> {
                     width: Dimensions.width5 * 7.5,
                     child: IconButton(
                       onPressed: () {
-                        widget.bloc.isLikeProvider.isLikeChage(!value);
+                        widget.bloc.likeValueNotifier.boolChange(!value);
                       },
                       icon: Icon(
                         value ? Icons.favorite : Icons.favorite_outline_rounded,

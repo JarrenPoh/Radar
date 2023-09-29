@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/vote_number_value.dart';
+import 'package:radar/valueNotifier/int_value_notifier.dart';
 import '../global/colors.dart';
 
 class RateRow extends StatefulWidget {
@@ -7,7 +7,7 @@ class RateRow extends StatefulWidget {
   final double iconPadding;
   final double numberSize;
   final bool isMan;
-  final VoteNumberProvider valueNotifier;
+  final IntValueNotifier valueNotifier;
   const RateRow({
     super.key,
     required this.iconPadding,

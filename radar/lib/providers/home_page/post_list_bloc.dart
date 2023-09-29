@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/post_card_bloc.dart';
-import '../screens/post_list/post_card.dart';
+import 'package:radar/providers/home_page/post_card_bloc.dart';
+import '../../screens/post_list/post_card.dart';
 
 class PostListBloc with ChangeNotifier {
   List<PostCardBloc> postCardBlocs = [];

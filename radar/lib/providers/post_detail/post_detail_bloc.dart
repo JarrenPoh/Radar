@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/comment_bloc.dart';
-import 'package:radar/providers/information_bloc.dart';
-import 'package:radar/providers/is_like_value.dart';
-import 'package:radar/providers/version_bloc.dart';
+import 'package:radar/providers/post_detail/comment_bloc.dart';
+import 'package:radar/providers/post_detail/information_bloc.dart';
+import 'package:radar/valueNotifier/bool_value.dart';
+import 'package:radar/providers/post_detail/version_bloc.dart';
 
 class PostDetailBloc extends ChangeNotifier {
   late TabController tabController;
@@ -13,5 +13,5 @@ class PostDetailBloc extends ChangeNotifier {
   final ScrollController informationScroll = ScrollController();
   final ScrollController commentScroll = ScrollController();
   final ScrollController versionScroll = ScrollController();
-  IsLikeProvider isLikeProvider = IsLikeProvider(false);
+  BoolValueNotifier likeValueNotifier = BoolValueNotifier(false);
 }

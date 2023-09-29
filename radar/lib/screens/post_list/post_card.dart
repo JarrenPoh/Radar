@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/widgets/rate_row.dart';
 import '../../global/medium_text.dart';
-import '../../providers/post_card_bloc.dart';
+import '../../providers/home_page/post_card_bloc.dart';
 
 class PostCard extends StatefulWidget {
   final String imgUrl;
   final bool isMan;
   final PostCardBloc bloc;
+  final String heroTag;
   const PostCard({
     Key? key,
     required this.imgUrl,
     required this.isMan,
     required this.bloc,
+    required this.heroTag,
   }) : super(key: key);
 
   @override
@@ -42,18 +44,22 @@ class PostCardState extends State<PostCard> {
       ),
       child: Column(
         children: [
-          AspectRatio(
-            aspectRatio: 4 / 7,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: Dimensions.width2 / 4),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.imgUrl),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(Dimensions.height5 * 2),
-                  topLeft: Radius.circular(Dimensions.height5 * 2),
+          Hero(
+            transitionOnUserGestures: false,
+            tag: widget.heroTag,
+            child: AspectRatio(
+              aspectRatio: 4 / 7,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: Dimensions.width2 / 4),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(widget.imgUrl),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(Dimensions.height5 * 2),
+                    topLeft: Radius.circular(Dimensions.height5 * 2),
+                  ),
                 ),
               ),
             ),
@@ -89,7 +95,7 @@ class PostCardState extends State<PostCard> {
                       iconSize: Dimensions.height2 * 14,
                       isMan: widget.isMan,
                       numberSize: Dimensions.height2 * 9,
-                      valueNotifier: widget.bloc.valueNumberProvider,
+                      valueNotifier: widget.bloc.rateValueNotifier,
                     ),
                   ],
                 ),

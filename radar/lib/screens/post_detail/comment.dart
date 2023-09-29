@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:radar/global/bold_text.dart';
 import 'package:radar/global/colors.dart';
 import 'package:radar/global/medium_text.dart';
-import 'package:radar/providers/comment_bloc.dart';
+import 'package:radar/providers/post_detail/comment_bloc.dart';
 import '../../global/dimension.dart';
 import '../../widgets/comment_card.dart';
 
@@ -28,9 +28,9 @@ class _CommentState extends State<Comment> with AutomaticKeepAliveClientMixin {
     super.initState();
     widget.bloc.textEditingController.addListener(() {
       if (widget.bloc.textEditingController.text.trim().isEmpty) {
-        widget.bloc.isCommentProvider.isCommentChage(false);
+        widget.bloc.isCommentProvider.boolChange(false);
       } else {
-        widget.bloc.isCommentProvider.isCommentChage(true);
+        widget.bloc.isCommentProvider.boolChange(true);
       }
     });
   }

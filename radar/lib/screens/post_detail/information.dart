@@ -3,7 +3,7 @@ import 'package:radar/global/bold_text.dart';
 import 'package:radar/global/colors.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/global/medium_text.dart';
-import 'package:radar/providers/information_bloc.dart';
+import 'package:radar/providers/post_detail/information_bloc.dart';
 
 class Information extends StatefulWidget {
   final InformationBloc bloc;
@@ -65,7 +65,7 @@ class _InformationState extends State<Information>
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 0,
-              childAspectRatio: 1.8,
+              childAspectRatio: 1.4,
               crossAxisSpacing: Dimensions.width5 * 2,
             ),
             childrenDelegate: SliverChildBuilderDelegate(

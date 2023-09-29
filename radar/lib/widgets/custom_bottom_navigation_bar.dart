@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:radar/global/dimension.dart';
 import '../global/colors.dart';
 
-class CustomBottomNavigationBar extends StatelessWidget {
+class CustomBottomNavigationBar extends StatefulWidget {
   CustomBottomNavigationBar({
     super.key,
     required this.onIconTap,
@@ -11,6 +11,20 @@ class CustomBottomNavigationBar extends StatelessWidget {
   });
   final int selectedPageIndex;
   final Function onIconTap;
+
+  @override
+  State<CustomBottomNavigationBar> createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  late int selectedPage;
+  @override
+  void initState() {
+    super.initState();
+    selectedPage = widget.selectedPageIndex;
+  }
+
   final List iconList = [
     Icons.home_filled,
     CupertinoIcons.search,
@@ -18,6 +32,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
     Icons.inbox_rounded,
     CupertinoIcons.profile_circled,
   ];
+
   final List labelText = ["home", "search", "", "inbox", "profile"];
 
   @override
@@ -51,13 +66,18 @@ class CustomBottomNavigationBar extends StatelessWidget {
     TextStyle textStyle,
     BuildContext context,
   ) {
-    bool isSelected = selectedPageIndex == index;
+    bool isSelected = selectedPage == index;
     Color iconAndTextColor = isSelected
         ? Theme.of(context).colorScheme.onSecondary
         : Theme.of(context).colorScheme.secondary;
 
     return GestureDetector(
-      onTap: () => {onIconTap(index)},
+      onTap: () {
+        widget.onIconTap(index);
+        setState(() {
+          selectedPage = index;
+        });
+      },
       child: SizedBox(
         width: Dimensions.width5 * 14,
         child: Column(
@@ -84,7 +104,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   _addItem(index, height, BuildContext context) {
     return GestureDetector(
-      onTap: () => {onIconTap(index)},
+      onTap: () => {widget.onIconTap(index)},
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
