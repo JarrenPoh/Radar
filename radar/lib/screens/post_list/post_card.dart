@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/widgets/rate_row.dart';
 import '../../global/medium_text.dart';
-import '../../providers/home_page/post_card_bloc.dart';
+import '../../providers/post_list/post_card_bloc.dart';
 
 class PostCard extends StatefulWidget {
   final String imgUrl;

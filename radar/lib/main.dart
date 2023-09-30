@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:radar/providers/add_post/add_inform_bloc.dart';
-import 'package:radar/providers/add_post/add_other_bloc.dart';
+import 'package:radar/providers/add_post_page/add_inform_bloc.dart';
+import 'package:radar/providers/add_post_page/add_other_bloc.dart';
+import 'package:radar/providers/post_list/post_list_bloc.dart';
+import 'package:radar/providers/search_page/search_page_bloc.dart';
+import 'package:radar/providers/user_list_bloc.dart';
 import 'package:radar/theme/dark_theme.dart';
 import 'package:radar/theme/light_theme.dart';
 import 'navigation_container.dart';
@@ -33,6 +36,15 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProvider(
             create: (context) => AddOtherBloc(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => SearchPageBloc(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => PostListBloc(''),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => UserListBloc(),
           ),
         ],
         child: const NavigationContainer(),

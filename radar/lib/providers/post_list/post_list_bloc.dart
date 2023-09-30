@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/home_page/post_card_bloc.dart';
+import 'package:radar/providers/post_list/post_card_bloc.dart';
 import '../../screens/post_list/post_card.dart';
 
 class PostListBloc with ChangeNotifier {
@@ -7,6 +7,14 @@ class PostListBloc with ChangeNotifier {
   ScrollController scrollController = ScrollController();
   List<GlobalObjectKey<PostCardState>> cardKeyList = [];
   List<String> heroTagList = [];
+  //search
+  TextEditingController textEditingController = TextEditingController();
+  bool isSearch = false;
+  void isSearchChange(value){
+    isSearch = value;
+    notifyListeners();
+  }
+  //
   List imgList = [
     "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60",
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cGVvcGxlfGVufDB8fDB8fHww&auto=format&fit=crop&w=400&q=60",

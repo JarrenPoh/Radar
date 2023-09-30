@@ -4,7 +4,7 @@ import 'package:radar/global/dimension.dart';
 import 'package:radar/screens/post_list/post_list.dart';
 import '../global/colors.dart';
 import '../global/scroll_things_provider.dart';
-import '../providers/home_page/home_page_bloc.dart';
+import '../providers/home_page_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -57,17 +57,18 @@ class _HomePageState extends State<HomePage>
                   labelColor: color_title,
                   labelStyle: const TextStyle(fontWeight: FontWeight.w600),
                   unselectedLabelColor: color_sub_title,
-                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorSize: TabBarIndicatorSize.label,
                   indicator: BoxDecoration(
                     color: color_woman,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   indicatorPadding: EdgeInsets.only(
-                    bottom: 8,
-                    top: 37,
-                    left: Dimensions.width5 * 17,
-                    right: Dimensions.width5 * 17,
+                    bottom: Dimensions.height2 * 4,
+                    top: Dimensions.height2 * 18.5,
+                    left: Dimensions.width5 * 2,
+                    right: Dimensions.width5 * 2,
                   ),
+                  indicatorWeight: 4,
                   onTap: (value) {
                     _homePageBloc.tabController.index = value;
                   },
@@ -81,22 +82,24 @@ class _HomePageState extends State<HomePage>
             ),
           ];
         },
-        body: Builder(builder: (context) {
-          return CustomScrollProvider(
-            tabController: _homePageBloc.tabController,
-            parent: PrimaryScrollController.of(context),
-            child: TabBarView(
-              controller: _homePageBloc.tabController,
-              children: List.generate(
-                _homePageBloc.tabList.length,
-                (index) => PostList(
-                  bloc: _homePageBloc.postListBlocs[index],
-                  index: index,
+        body: Builder(
+          builder: (context) {
+            return CustomScrollProvider(
+              tabController: _homePageBloc.tabController,
+              parent: PrimaryScrollController.of(context),
+              child: TabBarView(
+                controller: _homePageBloc.tabController,
+                children: List.generate(
+                  _homePageBloc.tabList.length,
+                  (index) => PostList(
+                    bloc: _homePageBloc.postListBlocs[index],
+                    index: index,
+                  ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }

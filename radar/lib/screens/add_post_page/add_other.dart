@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/global/medium_text.dart';
 import 'package:radar/global/regular_text.dart';
-import 'package:radar/providers/add_post/add_other_bloc.dart';
+import 'package:radar/providers/add_post_page/add_other_bloc.dart';
 import 'package:radar/widgets/custom/custom_modal_sheet.dart';
 import 'package:radar/widgets/edit/edit_textfield.dart';
 
@@ -23,13 +23,8 @@ class _AddOtherState extends State<AddOther> {
   List widgets = [];
   @override
   Widget build(BuildContext context) {
-    final inputBorder =
-        OutlineInputBorder(borderSide: Divider.createBorderSide(context));
-    Color color_onPrimary = Theme.of(context).colorScheme.onPrimary;
-    Color color_onSecondary = Theme.of(context).colorScheme.onSecondary;
     Color color_title = Theme.of(context).colorScheme.primary;
     Color color_sub_title = Theme.of(context).colorScheme.secondary;
-    Color color_scaffold = Theme.of(context).colorScheme.background;
     Color color_container = Theme.of(context).colorScheme.primaryContainer;
     widgets = [
       EditTextField(

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/global/medium_text.dart';
-import 'package:radar/providers/add_post/add_inform_bloc.dart';
+import 'package:radar/providers/add_post_page/add_inform_bloc.dart';
 import 'package:radar/widgets/edit/edit_person.dart';
 import 'package:radar/widgets/edit/edit_radio.dart';
 import 'package:radar/widgets/edit/edit_school.dart';

@@ -4,10 +4,10 @@ import 'package:radar/global/bold_text.dart';
 import 'package:radar/global/colors.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/global/medium_text.dart';
-import 'package:radar/providers/add_post/add_post_page_bloc.dart';
-import 'package:radar/screens/add_post/add_information.dart';
-import 'package:radar/screens/add_post/add_other.dart';
-import 'package:radar/screens/add_post/add_picture.dart';
+import 'package:radar/providers/add_post_page/add_post_page_bloc.dart';
+import 'package:radar/screens/add_post_page/add_information.dart';
+import 'package:radar/screens/add_post_page/add_other.dart';
+import 'package:radar/screens/add_post_page/add_picture.dart';
 import 'package:radar/widgets/custom/custom_dialog.dart';
 
 class AddPostPage extends StatefulWidget {

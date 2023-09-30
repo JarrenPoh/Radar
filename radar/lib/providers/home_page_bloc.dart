@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:radar/providers/home_page/post_list_bloc.dart';
+import 'package:radar/providers/post_list/post_list_bloc.dart';
 
 class HomePageBloc with ChangeNotifier {
   List<PostListBloc> postListBlocs = [];
-  List tabList = ["CYCU", "Explore"];
+  List tabList = ["CYCU", "Explore","Folllow"];
   late TabController tabController;
 
   HomePageBloc(){

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:insta_assets_picker/insta_assets_picker.dart';
 import 'package:radar/global/dimension.dart';
 import 'package:radar/global/medium_text.dart';
-import 'package:radar/providers/add_post/add_picture_bloc.dart';
+import 'package:radar/providers/add_post_page/add_picture_bloc.dart';
 import '../../global/colors.dart';
 
 class AddPicture extends StatefulWidget {
